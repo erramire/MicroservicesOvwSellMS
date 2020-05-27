@@ -10,7 +10,7 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
 {
     public class Sell: IAggregateRoot
     {
-        public IReadOnlyCollection<SellItem> SellItems;
+        
 
         public Sell() { 
         }
@@ -24,6 +24,8 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
         public int ItemsQuantity { get; set; }
         public Guid CashDeskID { get; set; }
         public StatusSell Status { get; set; }
+
+        public IEnumerable<SellItem> SellItems;
 
 
 

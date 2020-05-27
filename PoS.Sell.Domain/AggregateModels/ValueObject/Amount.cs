@@ -8,8 +8,8 @@ namespace PoS.Sell.Domain.AggregateModels.ValueObject
 {
     public class Amount : PoS.Sell.Domain.Contracts.ValueObject
     {
-        public Guid CurrencyId { get; private set; }
-        public decimal TotalAmount { get; private set; }
+        public Guid CurrencyId { get; set; }
+        public decimal TotalAmount { get; set; }
         public Amount() {  }
 
         public Amount(Guid currencyId, decimal amount)
