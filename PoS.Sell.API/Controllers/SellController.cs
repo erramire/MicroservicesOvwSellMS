@@ -26,7 +26,7 @@ namespace PoS.Sell.API.Controllers
         /// </summary>
         /// <param name="checkOutSellDTO"></param>
         /// <returns></returns>
-        [HttpPost("v{version: apiVersion}/CheckOut/{correlationToken}", Name ="CheckOut")]
+        [HttpPost("CheckOut/{correlationToken}", Name ="CheckOut")]
         public async Task<IActionResult> PostCheckOut([FromBody] CheckOutSellDTO checkOutSellDTO, string correlationToken)
         {
             Guard.ForNullObject(checkOutSellDTO, "CheckOut Sell");
@@ -47,7 +47,7 @@ namespace PoS.Sell.API.Controllers
         /// </summary>
         /// <param name="addSellItemDTO"></param>
         /// <returns></returns>
-        [HttpPost("v{version: apiVersion}/AddSellItem/{correlationToken}",Name = "AddSellItem")]
+        [HttpPost("AddSellItem/{correlationToken}",Name = "AddSellItem")]
         public async Task<IActionResult> AddSellItem([FromBody] AddSellItemDTO addSellItemDTO, string correlationToken)
         {
             Guard.ForNullObject(addSellItemDTO, "Adding Sell Item");
@@ -69,7 +69,7 @@ namespace PoS.Sell.API.Controllers
         /// </summary>
         /// <param name="createSellDTO"></param>
         /// <returns></returns>
-        [HttpPost("v{version: apiVersion}/CreateSell/{correlationToken}",Name = "CreateSell")]
+        [HttpPost("CreateSell/{correlationToken}",Name = "CreateSell")]
         public async Task<IActionResult> CreateSell([FromBody] CreateSellDTO createSellDTO, string correlationToken)
         {
             Guard.ForNullObject(createSellDTO, "Creating a new Sell");
