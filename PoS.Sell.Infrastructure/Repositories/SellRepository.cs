@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
 using System.Net;
 using PoS.Sell.Domain.Contracts;
+using Microsoft.Azure.Cosmos;
+using System.Linq;
 
 namespace PoS.Sell.Infrastructure.Repositories
 {
@@ -13,123 +13,81 @@ namespace PoS.Sell.Infrastructure.Repositories
     {
         private readonly string _endpointUri;
         private readonly string _primaryKey;
-        private DocumentClient _client;
-                
+        private CosmosClient _client;
+        private Database _database;
+        private Container _container;
+        private string databaseId = "SellDB";
+        private string containerId = "SellContainer";
+
         public SellRepository(DataStoreConfiguration dataStoreConfiguration)
         {
             _endpointUri = dataStoreConfiguration.EndPointUri;
             _primaryKey = dataStoreConfiguration.Key;
+            _client = new CosmosClient(_endpointUri, _primaryKey);
         }
 
-        public async Task<string> Add(Domain.AggregateModels.SellAggregates.Sell entity)
+        public async Task ConfigureDbAndContainerAsync()
         {
-            _client = new DocumentClient(new Uri(_endpointUri), _primaryKey);
-            await _client.CreateDatabaseIfNotExistsAsync(new Database { Id = "SellDB" });
-
-            //TODO: Add idempotent write check. Ensure that update with same correlation token does not already exist. 
-
-            await _client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri("SellDB"),
-                new DocumentCollection { Id = "SellCollection" });
-            return await CreateSellDocumentIfNotExists("SellDB", "SellCollection", entity);
+            _database = await _client.CreateDatabaseIfNotExistsAsync(databaseId);
+            _container = await _database.CreateContainerIfNotExistsAsync(containerId, "/UserId");
         }
 
-
-        public Task<string> Delete(Domain.AggregateModels.SellAggregates.Sell entity)
+        public async Task<string> Add(Domain.AggregateModels.SellAggregates.Sell entity, string correlationToken)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<dynamic> GetAll(string SellId, string correlationToken)
-        {
-            dynamic Sell = null;
+            string result = String.Empty;
+            entity.CorrelationToken = correlationToken;
+            await ConfigureDbAndContainerAsync();
 
             try
             {
-                _client = new DocumentClient(new Uri(_endpointUri), _primaryKey);
-
-                var response =
-                    await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri("SellDB", "SellCollection",
-                        SellId));
-                Sell = response.Resource;
+                // Read the item to see if it exists.  
+                ItemResponse<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell> SellResponse = await _container.ReadItemAsync<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell>(entity.Folio_Venta,
+                                                                                                    new PartitionKey(entity.UserId));
+                result = "Existing Item";
             }
-            catch (DocumentClientException ex)
+            catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                    Sell = null;
 
-                // Cannot find specified document
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log Error
-                throw;
-            }
+                ItemResponse<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell> SellResponse = await _container.CreateItemAsync<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell>(entity, new PartitionKey(entity.UserId));
+                result = "Item Created";
 
-            return Sell;
+            }
+            return result;
         }
 
-        public async Task<dynamic> GetById(string correlationToken)
+        public async Task<string> Update(Domain.AggregateModels.SellAggregates.Sell entity, string correlationToken)
         {
-            var Sells = new List<dynamic>();
-            try
-            {
-                dynamic Sell = null;
-                _client = new DocumentClient(new Uri(_endpointUri), _primaryKey);
-                var documents =
-                    await _client.ReadDocumentFeedAsync(
-                        UriFactory.CreateDocumentCollectionUri("SellDB", "SellCollection"));
+            string result = String.Empty;
+            entity.CorrelationToken = correlationToken;
+            // replace the item with the updated content
+            ItemResponse<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell> SellResponse = await _container.ReplaceItemAsync<PoS.Sell.Domain.AggregateModels.SellAggregates.Sell>(entity, entity.Folio_Venta, new PartitionKey(entity.UserId));
 
-                foreach (Document document in documents)
-                {
-                    Sell = document;
-                    Sells.Add(Sell);
-                }
-            }
-            catch (DocumentClientException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                    Sells = null;
+            result = "Item Updated";
 
-                // Cannot find specified document
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log Error
-                throw;
-            }
-
-            return Sells;
+            return result;
         }
 
-        public Task<bool> Update(Domain.AggregateModels.SellAggregates.Sell entity)
+        public async Task<dynamic> GetById(string folioVenta,string correlationToken)
         {
-            throw new NotImplementedException();
-        }
+            await ConfigureDbAndContainerAsync();
 
-        private async Task<string> CreateSellDocumentIfNotExists(string databaseName, string collectionName,
-            PoS.Sell.Domain.AggregateModels.SellAggregates.Sell Sells)
-        {
-            try
-            {
-                var response = await _client.CreateDocumentAsync(
-                    UriFactory.CreateDocumentCollectionUri(databaseName, collectionName),
-                    Sells);
+            var sqlQueryText = "SELECT * FROM c WHERE c.id = '" + folioVenta + "'";
+            QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+            FeedIterator<Domain.AggregateModels.SellAggregates.Sell> queryResultSetIterator = _container.GetItemQueryIterator<Domain.AggregateModels.SellAggregates.Sell>(queryDefinition);
 
-                return response.Resource.Id;
-            }
-            catch (DocumentClientException de)
+
+            List<Domain.AggregateModels.SellAggregates.Sell> sells = new List<Domain.AggregateModels.SellAggregates.Sell>();
+
+            while (queryResultSetIterator.HasMoreResults)
             {
-                if (de.StatusCode == HttpStatusCode.NotFound)
+                FeedResponse<Domain.AggregateModels.SellAggregates.Sell> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (Domain.AggregateModels.SellAggregates.Sell product in currentResultSet)
                 {
-                    // await this.client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), Sells);
-                }
-                else
-                {
-                    throw;
+                    sells.Add(product);
                 }
             }
 
-            return null;
+            return sells.FirstOrDefault();
         }
     }
 }

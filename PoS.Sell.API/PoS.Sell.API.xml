@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PoS.Sell.API</name>
+    </assembly>
+    <members>
+        <member name="M:PoS.Sell.API.Application.Filters.SellCustomExceptionFilter.TraverseException(System.Exception)">
+            <summary>
+                Enumerates exception collection fetching the original exception, which would be the real
+                error. The outer exceptions are wrappers which we are not concerned.
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoS.Sell.API.Controllers.SellController.PostCheckOut(PoS.Sell.API.Application.DTOs.CheckOutSellDTO,System.String)">
+            <summary>
+            Do the checkout of a sell 
+            </summary>
+            <param name="checkOutSellDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoS.Sell.API.Controllers.SellController.AddSellItem(PoS.Sell.API.Application.DTOs.AddSellItemDTO,System.String)">
+            <summary>
+            Adds a new item to the sell record, by its sku
+            </summary>
+            <param name="addSellItemDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoS.Sell.API.Controllers.SellController.CreateSell(PoS.Sell.API.Application.DTOs.CreateSellDTO,System.String)">
+            <summary>
+            Create a new sell record
+            </summary>
+            <param name="createSellDTO"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

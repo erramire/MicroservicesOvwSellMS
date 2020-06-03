@@ -51,11 +51,6 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
             TotalPaid = CalculateTotalPaid(Price.CurrencyId);
         }
 
-        public bool SaveSellItem() {
-            bool result;
-            throw new NotImplementedException();
-            return result;
-        }
 
         /// <summary>
         /// Calculates total amount to pay
@@ -76,7 +71,7 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
             decimal price = Price.TotalAmount;
             foreach (var tax in Taxes)
             {
-                totaltax += QuantitySold * price * tax.Percentage;
+                totaltax += QuantitySold * price * (tax.Percentage/100);
             }
             return new Amount(Price.CurrencyId, totaltax);
         }
