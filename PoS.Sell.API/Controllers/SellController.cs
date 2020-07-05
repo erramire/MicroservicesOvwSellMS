@@ -85,7 +85,7 @@ namespace PoS.Sell.API.Controllers
             var addItemResult = await _sellBusiness.CreateSellAsync(createSellDTO.StoreId, createSellDTO.CashdeskId, createSellDTO.CashierId,correlationToken);
 
 
-            return new ObjectResult("New Item added to the Sell!");
+            return new ObjectResult("New sell created");
         }
 
     }

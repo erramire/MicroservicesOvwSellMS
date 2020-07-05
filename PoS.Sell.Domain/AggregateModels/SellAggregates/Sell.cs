@@ -26,6 +26,7 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
             _statusSellRepository = statusSellRepository;
             _productRepository = productRepository;
         }
+
         [JsonProperty(PropertyName = "id")]
         public string Folio_Venta { get; set; }
         public string StoreId{ get; set; }
@@ -41,10 +42,6 @@ namespace PoS.Sell.Domain.AggregateModels.SellAggregates
         public Dictionary<string,SellItem> SellItems;
 
 
-        public string CreateSell() {
-            string result = String.Empty;
-            return result;
-        }
 
         
 

@@ -9,6 +9,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using PoS.Sell.API.EventHandlers;
 
 namespace PoS.Sell.API
 {
@@ -96,7 +97,7 @@ namespace PoS.Sell.API
         {
             var eventBus = app.ApplicationServices.GetRequiredService<CC.EventBus.EventBus.IEventBus>();
             eventBus.ServiceProvider = serviceProvider;
-
+            eventBus.Subscribe(CC.EventBus.Events.MessageEventEnum.ProductChangedEvent, typeof(ProductChangedEventHandler));
             eventBus.Subscribe(CC.EventBus.Events.MessageEventEnum.SellStatusChangedEvent,
                 typeof(PoS.Sell.API.EventHandlers.SellPaidEventHandler));
         }
