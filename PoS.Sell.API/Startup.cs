@@ -28,7 +28,7 @@ namespace PoS.Sell.API
             services.AddControllers();
 
             // Register cloud resources via extension methods
-            services.RegisterMessageBroker(Configuration);
+            //services.RegisterMessageBroker(Configuration);
             services.RegisterNoSqlStore(Configuration);
 
             // Resgister concrete dependencies
@@ -50,9 +50,9 @@ namespace PoS.Sell.API
 
                 //Set the comments path for the Swagger JSON and UI.
 
-               var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = Path.Combine(basePath, "PoS.Sell.API.xml");
-                c.IncludeXmlComments(xmlPath);
+               //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+               // var xmlPath = Path.Combine(basePath, "PoS.Sell.API.xml");
+               // c.IncludeXmlComments(xmlPath);
             });
 
             services.AddApiVersioning(x =>
@@ -65,6 +65,7 @@ namespace PoS.Sell.API
                 // to which you are routed if no version is specified
                 x.DefaultApiVersion = new ApiVersion(1, 0);
             });
+            services.AddApplicationInsightsTelemetry("1e815d30-352a-429f-9453-df45109beeb4");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +76,7 @@ namespace PoS.Sell.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -83,9 +84,10 @@ namespace PoS.Sell.API
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering Services API V1"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Selling" +
+                " Services API V1"); });
 
-            ConfigureEventBus(app, serviceProvider);
+            //ConfigureEventBus(app, serviceProvider);
 
             app.UseEndpoints(endpoints =>
             {

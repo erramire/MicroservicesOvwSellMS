@@ -24,14 +24,22 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5001;http://localhost:8088"
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": true
+      "httpPort": 8088,
+      "useSSL": false
+    },
+    "Azure Dev Spaces": {
+      "commandName": "AzureDevSpaces",
+      "launchBrowser": true,
+      "resourceGroup": "k8s-aks-cluster-rg-EDRM",
+      "aksName": "aks-k8s-cluster",
+      "subscriptionId": "3918e4e2-4e04-48ca-adba-f54b7f849786"
     }
   }
 }

@@ -169,7 +169,7 @@ namespace PoS.CC.EventBus.EventBus
             errorMessage.Append($"- Entity Path: {context.EntityPath}");
             errorMessage.Append($"- Executing Action: {context.Action}");
 
-            _logger = ServiceProvider.GetService<ILogger<EventBusServiceBus>>();
+            //_logger = ServiceProvider.GetService<ILogger<EventBusServiceBus>>();
             _logger.LogError(new EventId(exceptionReceivedEventArgs.Exception.HResult),
                 exceptionReceivedEventArgs.Exception,
                 "Exception throw in {message}", errorMessage.ToString());

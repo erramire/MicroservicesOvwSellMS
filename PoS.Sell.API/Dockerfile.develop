@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1
+ARG BUILD_CONFIGURATION=Debug
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+EXPOSE 80
+
+WORKDIR /src
+COPY ["PoS.CC.EventBus/PoS.CC.EventBus.csproj", "PoS.CC.EventBus/"]
+COPY ["PoS.CC.Utilities/PoS.CC.Utilities.csproj", "PoS.CC.Utilities/"]
+COPY ["PoS.Sell.API/PoS.Sell.API.csproj", "PoS.Sell.API/"]
+COPY ["PoS.Sell.Domain/PoS.Sell.Domain.csproj", "PoS.Sell.Domain/"]
+COPY ["PoS.Sell.Infrastructure/PoS.Sell.Infrastructure.csproj", "PoS.Sell.Infrastructure/"]
+
+RUN dotnet restore "PoS.Sell.API/PoS.Sell.API.csproj"
+COPY . .
+WORKDIR "/src/PoS.Sell.API"
+RUN dotnet build --no-restore "PoS.Sell.API.csproj" -c $BUILD_CONFIGURATION
+
+RUN echo "exec dotnet run --no-build --no-launch-profile -c $BUILD_CONFIGURATION --" > /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

@@ -12,16 +12,18 @@ namespace PoS.Sell.API.Application.Domain
         private readonly ISellRepository _sellRepository;        
         private readonly IStatusSellRepository _statusSellRepository;
         private readonly IProductRepository _productRepository;
-        private readonly CC.EventBus.EventBus.IEventBus _eventBus;
-
+        //private readonly CC.EventBus.EventBus.IEventBus _eventBus;
+        //public SellBusiness(ISellRepository sellRepository,
+        //    IStatusSellRepository statusSellRepository,
+        //    IProductRepository productRepository, CC.EventBus.EventBus.IEventBus eventBus)
         public SellBusiness(ISellRepository sellRepository,             
             IStatusSellRepository statusSellRepository, 
-            IProductRepository productRepository, CC.EventBus.EventBus.IEventBus eventBus) 
+            IProductRepository productRepository) 
         {
             _sellRepository = sellRepository;            
             _statusSellRepository = statusSellRepository;
             _productRepository = productRepository;
-            _eventBus = eventBus;
+            //_eventBus = eventBus;
         }
 
         public async Task<string> CreateSellAsync(string storeId, string cashdeskId,string userId, string correlationToken)
@@ -74,7 +76,7 @@ namespace PoS.Sell.API.Application.Domain
                 
             };
 
-            await _eventBus.Publish(checkout, CC.EventBus.Events.MessageEventEnum.SellCheckoutEvent, "");
+            //await _eventBus.Publish(checkout, CC.EventBus.Events.MessageEventEnum.SellCheckoutEvent, "");
             return result;
         }
 

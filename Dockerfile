@@ -13,6 +13,8 @@ WORKDIR /src
 COPY ["PoS.Sell.API/PoS.Sell.API.csproj", "PoS.Sell.API/"]
 COPY ["PoS.Sell.Domain/PoS.Sell.Domain.csproj", "PoS.Sell.Domain/"]
 COPY ["PoS.Sell.Infrastructure/PoS.Sell.Infrastructure.csproj", "PoS.Sell.Infrastructure/"]
+COPY ["PoS.CC.Utilities/PoS.CC.Utilities.csproj", "PoS.CC.Utilities/"]
+COPY ["PoS.CC.EventBus/PoS.CC.EventBus.csproj", "PoS.CC.EventBus/"]
 RUN dotnet restore "PoS.Sell.API/PoS.Sell.API.csproj"
 COPY . .
 WORKDIR "/src/PoS.Sell.API"
