@@ -15,12 +15,12 @@
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="4.1.3" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
-    <PackageReference Include="PoS.CC.EventBus" Version="1.0.0" />
-    <PackageReference Include="PoS.CC.Utilities" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PoS.CC.EventBus\PoS.CC.EventBus.csproj" />
+    <ProjectReference Include="..\PoS.CC.Utilities\PoS.CC.Utilities.csproj" />
     <ProjectReference Include="..\PoS.Sell.Domain\PoS.Sell.Domain.csproj" />
     <ProjectReference Include="..\PoS.Sell.Infrastructure\PoS.Sell.Infrastructure.csproj" />
   </ItemGroup>

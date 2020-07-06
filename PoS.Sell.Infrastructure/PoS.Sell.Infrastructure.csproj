@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,10 +7,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.9.1" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.10.3" />
-    <PackageReference Include="PoS.CC.Utilities" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PoS.CC.Utilities\PoS.CC.Utilities.csproj" />
     <ProjectReference Include="..\PoS.Sell.Domain\PoS.Sell.Domain.csproj" />
   </ItemGroup>
 
