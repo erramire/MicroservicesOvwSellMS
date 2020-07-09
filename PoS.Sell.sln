@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoS.Sell.Domain", "PoS.Sell
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoS.Sell.Infrastructure", "PoS.Sell.Infrastructure\PoS.Sell.Infrastructure.csproj", "{B9CA61BF-C72F-4B38-AD0D-C1AE7DF5496D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoS.Sell.Domain.UnitTest", "PoS.Sell.Domain.UnitTest\PoS.Sell.Domain.UnitTest.csproj", "{0592FFA9-8C44-4D28-9D1F-70A2177F828C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoS.CC.Utilities", "PoS.CC.Utilities\PoS.CC.Utilities.csproj", "{2B4BEA25-BE75-4AF2-B0B3-0063AC1FC4E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoS.CC.EventBus", "PoS.CC.EventBus\PoS.CC.EventBus.csproj", "{F45F5AAC-8840-4458-A30F-E4B555D55577}"
@@ -33,10 +31,6 @@ Global
 		{B9CA61BF-C72F-4B38-AD0D-C1AE7DF5496D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9CA61BF-C72F-4B38-AD0D-C1AE7DF5496D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9CA61BF-C72F-4B38-AD0D-C1AE7DF5496D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0592FFA9-8C44-4D28-9D1F-70A2177F828C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0592FFA9-8C44-4D28-9D1F-70A2177F828C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0592FFA9-8C44-4D28-9D1F-70A2177F828C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0592FFA9-8C44-4D28-9D1F-70A2177F828C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B4BEA25-BE75-4AF2-B0B3-0063AC1FC4E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B4BEA25-BE75-4AF2-B0B3-0063AC1FC4E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B4BEA25-BE75-4AF2-B0B3-0063AC1FC4E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
