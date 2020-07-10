@@ -59,7 +59,7 @@ namespace PoS.Sell.Infrastructure.Repositories
         }
 
 
-        public async Task<dynamic> GetById(string id)
+        public async Task<Product> GetById(string id)
         {
             await ConfigureDbAndContainerAsync();
 
