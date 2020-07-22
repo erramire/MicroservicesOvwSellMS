@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PoS.Sell.Domain.UnitT.Discounts
+namespace PoS.Sell.Domain.Discount
 {
-    public class DiscountRequest
+    public class DiscuountBase
     {
         public string Descripcion { get; set; }
         public DateTime Vigencia { get; set; }
