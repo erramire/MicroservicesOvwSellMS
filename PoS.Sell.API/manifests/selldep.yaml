@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sellapi
-        image: acrpossell.azurecr.io/possellapi:latest
+        image: acrpossell.azurecr.io/possellapi:454
         ports:
         - containerPort: 8088
           protocol: TCP
