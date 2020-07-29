@@ -32,3 +32,57 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         
+- stage: 'DockerImage'
+  displayName: 'Genera la imagen docker y la envia al ACR'
+  dependsOn: BuildTest
+  jobs:
+  - job: 'DockerImage'
+    displayName: 'Genera la imagenes docker'
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'Container Registry Connection'
+          repository: 'possellapi'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: $(tag)
+      - publish: '$(Build.SourcesDirectory)/PoS.Sell.API/manifests'
+        artifact: manifests
+
+- stage: 'Deploy'
+  displayName: 'Genera el despliegue de la imgen docker'
+  dependsOn: DockerImage
+  jobs:
+  - job: 'AKSDeployment'
+    displayName: 'DEspliegue en AKS'
+    pool:
+      vmImage: 'ubuntu-18.04'
+    environment: 'dev.default'
+    variables: 
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: manifests 
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'createSecret'
+              kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+              namespace: 'default'
+              secretType: 'dockerRegistry'
+              secretName: 'secret'
+              dockerRegistryEndpoint: 'Container Registry Connection'
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+              namespace: 'default'
+              manifests: '$(Pipeline.Workspace)/manifests/selldep.yaml                 $(Pipeline.Workspace)/manifests/sellsvc.yaml'
+              containers: '$(RegistryName)/$(webRepository):$(tag)'
+              imagePullSecrets: 'secret'
+
+
