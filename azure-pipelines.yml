@@ -55,7 +55,7 @@ stages:
   displayName: 'Genera el despliegue de la imgen docker'
   dependsOn: DockerImage
   jobs:
-  - job: 'AKSDeployment'
+  - deployment: 'AKSDeployment'
     displayName: 'DEspliegue en AKS'
     pool:
       vmImage: 'ubuntu-18.04'
