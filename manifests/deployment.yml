@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: erramiremicroservicesovwsellms 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: erramiremicroservicesovwsellms 
+    spec:
+      containers:
+        - name: erramiremicroservicesovwsellms 
+          image: acrpossell.azurecr.io/erramiremicroservicesovwsellms
+          ports:
+          - containerPort: 80
