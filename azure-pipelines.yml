@@ -13,7 +13,7 @@ stages:
   - job: 'BuildAndTest'
     displayName: 'Build and test job'
     pool:
-      vmImage:'ubuntu-18.04'
+      vmImage: 'ubuntu-18.04'
     steps:
     - task: NuGetToolInstaller@1
     - task: NuGetCommand@2
