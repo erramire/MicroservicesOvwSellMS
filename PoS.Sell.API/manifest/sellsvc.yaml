@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sell-svc
+spec:
+  ports:
+    - port: 80
+  selector:
+    target: dev
+    app: selloxxo
+  type: LoadBalancer
