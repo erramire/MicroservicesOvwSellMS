@@ -87,8 +87,8 @@ stages:
               kubernetesServiceConnection: 'Kubernetes Cluster Connection'
               namespace: 'devdemo'
               manifests: |
-                $(Pipeline.Workspace)/manifests/selldep.yml
-                $(Pipeline.Workspace)/manifests/sellsvc.yml
+                $(Pipeline.Workspace)/manifests/selldep.yaml
+                $(Pipeline.Workspace)/manifests/sellsvc.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
