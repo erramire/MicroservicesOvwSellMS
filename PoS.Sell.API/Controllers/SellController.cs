@@ -42,6 +42,8 @@ namespace PoS.Sell.API.Controllers
             return new ObjectResult("CheckOut of the Sell successful!");            
         }
         
+
+
         /// <summary>
         /// Adds a new item to the sell record, by its sku
         /// </summary>
@@ -50,6 +52,7 @@ namespace PoS.Sell.API.Controllers
         [HttpPost("AddSellItem/{correlationToken}",Name = "AddSellItem")]
         public async Task<IActionResult> AddSellItem([FromBody] AddSellItemDTO addSellItemDTO, string correlationToken)
         {
+            var num = 1;
             Guard.ForNullObject(addSellItemDTO, "Adding Sell Item");
             Guard.ForNullOrEmpty(addSellItemDTO.Folio_Venta, "Folio Venta in New item to Sell");
             Guard.ForNullOrEmpty(addSellItemDTO.Sku, "sku in New item to Sell");
