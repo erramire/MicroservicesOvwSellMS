@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sell-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      target: dev
+  template:
+    metadata:
+      name: sell-pod
+      labels:
+        target: dev
+        app: selloxxo
+    spec:
+      containers:
+      - name: sellapi
+        image: acrpossell.azurecr.io/possellapi:454
+        ports:
+        - containerPort: 8088
+          protocol: TCP
